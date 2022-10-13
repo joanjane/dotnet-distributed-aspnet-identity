@@ -9,8 +9,11 @@ demonstration purposes. Also note that API should not be exposed without adding 
 mechanism between BFF and API or communicating within a private network.
 
 ## EF Migrations
+### Restore dotnet tool (from repo root):
+`dotnet tool restore`
 
-### Add a new migration:
+### Add a new migration (from repo root):
+
 ```sh
 dotnet ef migrations add {Migration Name} -p .\src\PoC.DistributedAspNetIdentity.Api\PoC.DistributedAspNetIdentity.Api.csproj -s .\src\PoC.DistributedAspNetIdentity.Api\PoC.DistributedAspNetIdentity.Api.csproj -c ApplicationDbContext -o Data/Migrations
 ```
