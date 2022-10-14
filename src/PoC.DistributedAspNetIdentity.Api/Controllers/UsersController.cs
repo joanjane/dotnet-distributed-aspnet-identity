@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using PoC.DistributedAspNetIdentity.Api.Domain;
 using PoC.DistributedAspNetIdentity.Api.Models;
@@ -6,7 +6,7 @@ using PoC.DistributedAspNetIdentity.Api.Models;
 namespace PoC.DistributedAspNetIdentity.Api.Controllers
 {
     [ApiController]
-    [Route("users")]
+    [Route("api/users")]
     public class UsersController : ControllerBase
     {
         private readonly UserManager<User> _userManager;
@@ -17,7 +17,7 @@ namespace PoC.DistributedAspNetIdentity.Api.Controllers
         }
 
         [HttpPost("check-credentials")]
-        public async Task<ActionResult<CheckCredentialsResponse>> CheckCredentials([FromBody] CheckCredentialsRequest request)
+        public async Task<ActionResult<UserResponse>> CheckCredentials([FromBody] CheckCredentialsRequest request)
         {
             var user = await _userManager.FindByEmailAsync(request.Email);
             if (user == null)
@@ -33,7 +33,7 @@ namespace PoC.DistributedAspNetIdentity.Api.Controllers
                     BuildValidationError(ErrorConstants.InvalidCredentials, "User or password are invalid"));
             }
 
-            return Ok(new CheckCredentialsResponse
+            return Ok(new UserResponse
             {
                 Id = user.Id,
                 Email = user.Email,

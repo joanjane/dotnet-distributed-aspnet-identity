@@ -1,12 +1,21 @@
+﻿using PoC.DistributedAspNetIdentity.Web.Exceptions.Filters;
+using PoC.DistributedAspNetIdentity.Web.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
-builder.Services.AddControllers();
+builder.Services.AddControllers(o => o.Filters.Add(typeof(HttpExceptionFilter)));
 // In production, the React files will be served from this directory
 builder.Services.AddSpaStaticFiles(configuration =>
 {
     configuration.RootPath = "ClientApp/build";
+});
+
+builder.Services.AddHttpClient<IUsersApiClient, UsersApiClient>(o =>
+{
+    o.BaseAddress = builder.Configuration.GetValue<Uri>("Api:BaseUrl");
+    // Demo API key client authentication. Provide your own authentication.
+    o.DefaultRequestHeaders.Add("X-APIKEY", builder.Configuration.GetValue<string>("Api:ApiKey", "demo"));
 });
 
 var app = builder.Build();

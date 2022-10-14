@@ -1,7 +1,7 @@
-﻿using System.Security.Claims;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using PoC.DistributedAspNetIdentity.Web.Models;
+using PoC.DistributedAspNetIdentity.Web.Services;
+using PoC.DistributedAspNetIdentity.Web.Services.Dto;
 
 namespace PoC.DistributedAspNetIdentity.Web.Controllers
 {
@@ -10,17 +10,20 @@ namespace PoC.DistributedAspNetIdentity.Web.Controllers
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {
-        public AuthController()
+        private readonly IUsersApiClient _usersApiClient;
+
+        public AuthController(IUsersApiClient usersApiClient)
         {
+            _usersApiClient = usersApiClient;
         }
 
         [HttpGet("check-session")]
-        public async Task<ActionResult<UserModel>> CheckSession()
+        public ActionResult<UserResponse> CheckSession()
         {
             var isAuthenticated = User.Identity?.IsAuthenticated ?? false;
             //if (!isAuthenticated) return Unauthorized();
 
-            return Ok(new UserModel());
+            return Ok(new UserResponse());
             //return Ok(new UserModel
             //{
             //    Id = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)),
@@ -32,26 +35,13 @@ namespace PoC.DistributedAspNetIdentity.Web.Controllers
 
 
         [HttpPost("login")]
-        public async Task<ActionResult<UserModel>> Login([FromBody] LoginModel request)
+        public async Task<UserResponse> Login([FromBody] CheckCredentialsRequest request, CancellationToken cancellationToken)
         {
-            // TODO: Sample, validate credentials and issue cookie
-            var valid = request.Email == "admin@admin.com" && request.Password == "admin";
-            if (!valid)
-            {
-                return ValidationProblem(BuildValidationError("InvalidCredentials", "Invalid credentials"));
-            }
+            var response = await _usersApiClient.CheckCredentials(request, cancellationToken);
 
-            return Ok(new UserModel
-            {
-                Email = request.Email,
-            });
-        }
+            // TODO: ISSUE Auth cookie
 
-        private static ValidationProblemDetails BuildValidationError(string errorCode, string message)
-        {
-            return new ValidationProblemDetails(
-                new Dictionary<string, string[]> { { errorCode, new[] { message } } }
-            );
+            return response;
         }
     }
 }

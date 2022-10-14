@@ -1,6 +1,6 @@
-﻿namespace PoC.DistributedAspNetIdentity.Web.Models
+﻿namespace PoC.DistributedAspNetIdentity.Web.Services.Dto
 {
-    public class LoginModel
+    public class CheckCredentialsRequest
     {
         public string Email { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
