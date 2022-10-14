@@ -42,9 +42,8 @@ namespace PoC.DistributedAspNetIdentity.Api.Controllers
             });
         }
 
-
         [HttpPost]
-        public async Task<ActionResult> CreateUser([FromBody] CreateUserRequest request)
+        public async Task<ActionResult<UserResponse>> CreateUser([FromBody] CreateUserRequest request)
         {
             var user = await _userManager.FindByNameAsync(request.Email);
             if (user != null)
@@ -70,7 +69,13 @@ namespace PoC.DistributedAspNetIdentity.Api.Controllers
                 return ValidationProblem(BuildValidationErrors(errors));
             }
 
-            return Ok();
+            return Ok(new UserResponse
+            {
+                Id = newUser.Id,
+                Email = newUser.Email,
+                Name = newUser.Name,
+                Surname = newUser.Surname
+            });
         }
 
         private static ValidationProblemDetails BuildValidationError(string errorCode, string message)

@@ -44,7 +44,17 @@ namespace PoC.DistributedAspNetIdentity.Web.Controllers
 
             return response;
         }
-        
+
+        [HttpPost("signup")]
+        public async Task<UserResponse> Signup([FromBody] CreateUserRequest request, CancellationToken cancellationToken)
+        {
+            var response = await _usersApiClient.CreateUser(request, cancellationToken);
+
+            await AuthenticateUser(response);
+
+            return response;
+        }
+
         [HttpPost("logout")]
         public async Task<ActionResult> Logout()
         {

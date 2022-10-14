@@ -14,8 +14,7 @@ mechanism between BFF and API or communicating within a private network.
 3. Then, start PoC.DistributedAspNetIdentity.Api project with VS with right click > Debug > Start new instance
 4. Finally, start PoC.DistributedAspNetIdentity.Web with VS with right click > Debug > Start new instance.
 
-You can test the application on http://localhost:5043/. 
-To create a new user, use API's swagger http://localhost:5231/swagger and call POST /users method.
+You can test the application on http://localhost:5043/ .
 
 ## EF Migrations
 ### Restore dotnet tool (from repo root):

@@ -45,12 +45,12 @@ app
     .UseStaticFiles()
     .UseSpaStaticFiles();
 
+app.UseRouting();
+
 app.UseAuthentication();
 app.UseAuthorization();
 
-app
-    .UseRouting()
-    .UseEndpoints(endpoints =>
+app.UseEndpoints(endpoints =>
     {
         endpoints.MapControllers();
     })

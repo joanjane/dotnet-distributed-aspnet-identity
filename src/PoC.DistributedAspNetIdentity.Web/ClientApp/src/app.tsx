@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { AuthGuard } from './core/auth/guard';
 import { useCheckSession } from './core/auth/hooks';
@@ -5,6 +6,7 @@ import { useAuthStore } from './core/auth/store';
 import { Login } from './login';
 import { Logout } from './logout';
 import { Layout } from './shared/layout';
+import { Signup } from './signup';
 
 function App() {
   useCheckSession();
@@ -28,6 +30,7 @@ function App() {
       } />
 
       <Route path="login" element={<Login />} />
+      <Route path="signup" element={<Signup />} />
       <Route path="logout" element={<Logout />} />
       <Route path="*" element={
         <Layout>
@@ -39,9 +42,15 @@ function App() {
 }
 
 function Home() {
+  const testHomeCall = useCallback(async () => {
+    const response = await fetch('/api/home');
+    console.log(await response.json());
+  }, []);
+
   return (
     <div className="app-content">
       <h1>Home</h1>
+      <button onClick={testHomeCall}>Test authenticated request</button>
     </div>
   );
 }
