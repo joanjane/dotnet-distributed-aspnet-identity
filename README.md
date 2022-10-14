@@ -8,6 +8,15 @@ more robust alternatives using standard protocols like OpenID Connect, this solu
 demonstration purposes. Also note that API should not be exposed without adding an authentication 
 mechanism between BFF and API or communicating within a private network.
 
+## Start project
+1. Restore npm packages. Open a command line in src\PoC.DistributedAspNetIdentity.Web\ClientApp folder and run `npm i`
+2. Start SPA in dev mode with `npm start`
+3. Then, start PoC.DistributedAspNetIdentity.Api project with VS with right click > Debug > Start new instance
+4. Finally, start PoC.DistributedAspNetIdentity.Web with VS with right click > Debug > Start new instance.
+
+You can test the application on http://localhost:5043/. 
+To create a new user, use API's swagger http://localhost:5231/swagger and call POST /users method.
+
 ## EF Migrations
 ### Restore dotnet tool (from repo root):
 `dotnet tool restore`
