@@ -3,6 +3,7 @@ import { AuthGuard } from './core/auth/guard';
 import { useCheckSession } from './core/auth/hooks';
 import { useAuthStore } from './core/auth/store';
 import { Login } from './login';
+import { Logout } from './logout';
 import { Layout } from './shared/layout';
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
       } />
 
       <Route path="login" element={<Login />} />
+      <Route path="logout" element={<Logout />} />
       <Route path="*" element={
         <Layout>
           <NotFound />

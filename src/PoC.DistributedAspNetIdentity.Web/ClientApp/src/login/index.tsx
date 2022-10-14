@@ -1,6 +1,7 @@
 import './index.scss';
 
-import { FormEvent, useCallback, useState } from 'react';
+import { FormEvent, useCallback, useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../core/auth/store';
 import { HttpError } from '../core/api/errors';
 
@@ -8,6 +9,16 @@ export function Login() {
   const [errors, setErrors] = useState<string[]>([]);
   const [formState, setFormState] = useState({ email: '', password: '' });
   const login = useAuthStore(state => state.login);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const isLoginRoute = location.pathname === '/login';
+  const isAuthenticated = useAuthStore(state => state.auth.isAuthenticated);
+
+  useEffect(() => {
+    if (isAuthenticated && isLoginRoute) {
+      navigate('/');
+    }
+  }, [navigate, isAuthenticated, isLoginRoute]);
 
   const onSubmit = useCallback(async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

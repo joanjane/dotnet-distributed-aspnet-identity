@@ -18,6 +18,7 @@ type UserStore = {
   auth: UserStoreState,
   checkSession: () => Promise<void>,
   login: (credentials: { email: string, password: string }) => Promise<void>,
+  logout: () => Promise<void>
 }
 
 const initialState: UserStoreState = {
@@ -57,6 +58,20 @@ export const useAuthStore = create<UserStore>((set) => ({
     }
 
     set({ auth: { loaded: true, isAuthenticated: true, user: await response.json() } })
+  },
+  logout: async () => {
+    const response = await fetch('/api/auth/logout', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (!response.ok) {
+      throw new UnknownHttpError(response, 'Logout error');
+    }
+
+    set({ auth: { loaded: true, isAuthenticated: false, user: null } })
   }
 }));
 

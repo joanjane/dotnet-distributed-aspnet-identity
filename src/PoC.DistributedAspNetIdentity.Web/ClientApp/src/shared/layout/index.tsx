@@ -15,6 +15,7 @@ function Nav() {
     <nav className="app-nav">
       <Link to="/" className="app-nav__link">Home</Link>
       <Link to="/profile" className="app-nav__link">My profile</Link>
+      <Link to="/logout" className="app-nav__link">Logout</Link>
     </nav>
   );
 }

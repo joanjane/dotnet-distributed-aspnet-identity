@@ -1,10 +1,22 @@
-﻿using PoC.DistributedAspNetIdentity.Web.Exceptions.Filters;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using PoC.DistributedAspNetIdentity.Web.Exceptions.Filters;
 using PoC.DistributedAspNetIdentity.Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers(o => o.Filters.Add(typeof(HttpExceptionFilter)));
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.ExpireTimeSpan = builder.Configuration.GetValue("Authentication:ExpirationTime", TimeSpan.FromMinutes(20));
+        options.SlidingExpiration = true;
+        options.AccessDeniedPath = "/forbidden/";
+        options.LoginPath = "/login/";
+        options.LogoutPath = "/logout/";
+    });
+
 // In production, the React files will be served from this directory
 builder.Services.AddSpaStaticFiles(configuration =>
 {
@@ -32,6 +44,9 @@ if (!app.Environment.IsDevelopment())
 app
     .UseStaticFiles()
     .UseSpaStaticFiles();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app
     .UseRouting()
