@@ -1,0 +1,24 @@
+.app-nav {
+  padding: 1rem 1rem;
+  border-bottom: 1px solid #404040;
+
+  &__link {
+    margin-right: 1rem;
+  }
+}
+
+.app-footer {
+  padding: 2rem 1rem;
+  background: #404040;
+  color: #ebebeb;
+}
+
+.app-main {
+  min-height: 350px;
+}
+
+.app-content {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 1rem;
+}

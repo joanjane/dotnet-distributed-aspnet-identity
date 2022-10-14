@@ -1,0 +1,16 @@
+.app-login {
+  box-shadow: 0 0 20px -8px rgb(0 0 0 / 63%);
+  background-color: white;
+  max-width: 350px;
+  padding: 3rem 2rem;
+  border-radius: 0.5rem;
+  margin: 1rem auto;
+  box-sizing: border-box;
+
+  &__title {
+    margin: 0;
+    margin-bottom: 1rem;
+    font-size: 22px;
+    text-align: center;
+  }
+}
